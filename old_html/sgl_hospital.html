@@ -1,0 +1,2498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SGL Hospital | Dr. B. Sandeep Hospital – Eluru</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&family=Noto+Sans+Telugu:wght@400;600&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --navy: #0a1628;
+      --navy-mid: #112244;
+      --teal: #0e7c6b;
+      --teal-light: #12a88f;
+      --teal-pale: #e0f5f2;
+      --gold: #d4a537;
+      --gold-light: #f0c855;
+      --cream: #fdf8f0;
+      --white: #ffffff;
+      --gray-soft: #f4f6f9;
+      --gray-text: #5a6370;
+      --text-dark: #1a2535;
+      --red-urgent: #c0392b;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-sans: 'DM Sans', sans-serif;
+      --font-tel: 'Noto Sans Telugu', sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--cream);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    /* ===== NAVBAR ===== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(10, 22, 40, 0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(212, 165, 55, 0.3);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-logo {
+      width: 45px;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .nav-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .nav-title {
+      color: white;
+    }
+
+    .nav-title span:first-child {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      font-weight: 700;
+      display: block;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-title span:last-child {
+      font-size: 0.7rem;
+      color: var(--gold-light);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: color 0.2s;
+      letter-spacing: 0.04em;
+    }
+
+    .nav-links a:hover {
+      color: var(--gold-light);
+    }
+
+    .nav-cta {
+      background: var(--teal);
+      color: white;
+      border: none;
+      padding: 0.55rem 1.3rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-family: var(--font-sans);
+      white-space: nowrap;
+    }
+
+    .nav-cta:hover {
+      background: var(--teal-light);
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      background: var(--navy);
+      overflow: hidden;
+      margin-top: 0;
+    }
+
+    .hero-video-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, rgba(10, 22, 40, 0.85) 0%, rgba(17, 34, 68, 0.7) 50%, rgba(13, 61, 53, 0.85) 100%);
+      z-index: 1;
+    }
+
+    .hero-bg-pattern,
+    .hero-circle-1,
+    .hero-circle-2,
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-bg-pattern {
+      position: absolute;
+      inset: 0;
+      opacity: 0.05;
+      background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0);
+      background-size: 40px 40px;
+    }
+
+    .hero-circle-1 {
+      position: absolute;
+      top: -10%;
+      right: -5%;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(14, 124, 107, 0.25) 0%, transparent 70%);
+    }
+
+    .hero-circle-2 {
+      position: absolute;
+      bottom: -15%;
+      left: -10%;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(212, 165, 55, 0.1) 0%, transparent 70%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      width: 100%;
+    }
+
+    .hero-content>div {
+      max-width: 750px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(14, 124, 107, 0.2);
+      border: 1px solid rgba(14, 124, 107, 0.5);
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-badge span {
+      color: var(--teal-light);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--teal-light);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.5;
+        transform: scale(0.8);
+      }
+    }
+
+    .hero h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 900;
+      color: white;
+      line-height: 1.15;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero h1 span {
+      color: var(--gold-light);
+      display: block;
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.05em;
+    }
+
+    .hero-tel-name {
+      font-family: var(--font-tel);
+      font-size: 1.1rem;
+      color: var(--gold-light);
+      margin-bottom: 1.5rem;
+      opacity: 0.9;
+    }
+
+    .hero-desc {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      max-width: 480px;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--teal);
+      color: white;
+      border: none;
+      padding: 0.9rem 2rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background: var(--teal-light);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: white;
+      border: 1.5px solid rgba(255, 255, 255, 0.4);
+      padding: 0.9rem 2rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--gold-light);
+      color: var(--gold-light);
+    }
+
+    /* Hero Stats */
+    .hero-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 2.5rem;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 1.2rem;
+      text-align: center;
+    }
+
+    .stat-card .stat-num {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+
+    .stat-card .stat-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* Hero Right Portrait */
+    .hero-right {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .hero-portrait-container {
+      position: relative;
+      width: 100%;
+      max-width: 550px;
+      aspect-ratio: 3/2;
+      border-radius: 30px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(10px);
+    }
+
+    .doctor-hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .experience-badge {
+      position: absolute;
+      bottom: 30px;
+      right: -20px;
+      background: rgba(14, 124, 107, 0.95);
+      backdrop-filter: blur(10px);
+      color: white;
+      padding: 1.2rem 1.8rem;
+      border-radius: 20px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      animation: float 3s ease-in-out infinite;
+      z-index: 3;
+    }
+
+    .exp-num {
+      display: block;
+      font-size: 1.8rem;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--gold-light);
+    }
+
+    .exp-text {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.9;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @media (max-width: 992px) {
+      .hero-right {
+        order: -1;
+        margin-bottom: 2rem;
+      }
+
+      .experience-badge {
+        right: 10px;
+        padding: 1rem 1.4rem;
+      }
+
+      .exp-num {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* ===== SECTION COMMONS ===== */
+    section {
+      padding: 5rem 2rem;
+    }
+
+    .section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-tag {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.6rem;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.25;
+      margin-bottom: 1rem;
+    }
+
+    .section-title span {
+      color: var(--teal);
+    }
+
+    .section-desc {
+      font-size: 0.95rem;
+      color: var(--gray-text);
+      line-height: 1.8;
+      max-width: 600px;
+    }
+
+    .section-head {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .section-head .section-desc {
+      margin: 0 auto;
+    }
+
+    .divider {
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--teal), var(--gold));
+      border-radius: 2px;
+      margin: 1rem 0 1.5rem;
+    }
+
+    .section-head .divider {
+      margin: 1rem auto 1.5rem;
+    }
+
+    /* ===== ABOUT ===== */
+    .about {
+      background: var(--white);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .about-visual {
+      position: relative;
+    }
+
+    .about-img-placeholder {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--teal) 100%);
+      border-radius: 20px;
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      overflow: hidden;
+      position: relative;
+      padding: 2rem 1.5rem 1.5rem;
+    }
+
+    .about-img-placeholder::before {
+      content: '';
+      position: absolute;
+      top: -30%;
+      right: -20%;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .about-img-placeholder .doctor-photo {
+      width: 180px;
+      height: 180px;
+      border-radius: 0%;
+      object-fit: cover;
+      object-position: center 65%;
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      position: relative;
+      z-index: 2;
+    }
+
+    .about-img-placeholder svg {
+      width: 80px;
+      height: 80px;
+      fill: rgba(255, 255, 255, 0.2);
+    }
+
+    .about-img-placeholder h3 {
+      font-family: var(--font-serif);
+      color: white;
+      font-size: 1.8rem;
+      font-weight: 700;
+      position: relative;
+      z-index: 2;
+    }
+
+    .about-img-placeholder p {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .about-badge-float {
+      position: absolute;
+      bottom: -1rem;
+      right: -1rem;
+      background: var(--gold);
+      color: var(--navy);
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(212, 165, 55, 0.4);
+    }
+
+    .about-badge-float span {
+      display: block;
+      font-size: 1.5rem;
+      font-family: var(--font-serif);
+    }
+
+    .about-features {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .feat-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: var(--gray-text);
+    }
+
+    .feat-item::before {
+      content: '✓';
+      color: var(--teal);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* ===== SERVICES ===== */
+    .services {
+      background: var(--gray-soft);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .service-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 2rem;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+    }
+
+    .service-card.gastro::before {
+      background: linear-gradient(180deg, var(--teal), var(--teal-light));
+    }
+
+    .service-card.laser::before {
+      background: linear-gradient(180deg, #8b5cf6, #a78bfa);
+    }
+
+    .service-card.general::before {
+      background: linear-gradient(180deg, var(--gold), var(--gold-light));
+    }
+
+    .service-card.diabetes::before {
+      background: linear-gradient(180deg, #e85d04, #f48c06);
+    }
+
+    .service-card.emergency::before {
+      background: linear-gradient(180deg, var(--red-urgent), #e74c3c);
+    }
+
+    .service-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .svc-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 1rem;
+    }
+
+    .gastro .svc-icon {
+      background: var(--teal-pale);
+    }
+
+    .laser .svc-icon {
+      background: #ede9fe;
+    }
+
+    .general .svc-icon {
+      background: #fef3c7;
+    }
+
+    .diabetes .svc-icon {
+      background: #fff3e0;
+    }
+
+    .emergency .svc-icon {
+      background: #fde8e8;
+    }
+
+    .service-card h3 {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.3rem;
+    }
+
+    .service-card .tel {
+      font-family: var(--font-tel);
+      font-size: 0.78rem;
+      color: var(--gray-text);
+      margin-bottom: 1rem;
+    }
+
+    .svc-list {
+      list-style: none;
+    }
+
+    .svc-list li {
+      font-size: 0.82rem;
+      color: var(--gray-text);
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .svc-list li:last-child {
+      border-bottom: none;
+    }
+
+    .svc-list li .en {
+      color: var(--text-dark);
+      font-weight: 500;
+    }
+
+    .svc-list li .te {
+      font-family: var(--font-tel);
+      font-size: 0.75rem;
+      color: var(--gray-text);
+    }
+
+    /* ===== GALLERY MODAL ===== */
+    .gallery {
+      position: fixed;
+      inset: 0;
+      background: var(--white);
+      z-index: 10000;
+      display: none;
+      overflow-y: auto;
+      padding: 5rem 2rem;
+      animation: slideUp 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    .gallery.active {
+      display: block;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .gallery-close {
+      position: fixed;
+      top: 2rem;
+      right: 2rem;
+      width: 50px;
+      height: 50px;
+      background: var(--navy);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      cursor: pointer;
+      z-index: 10001;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      transition: 0.3s;
+    }
+
+    .gallery-close:hover {
+      transform: scale(1.1) rotate(90deg);
+      background: var(--teal);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 15px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      background: #f0f0f0;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.08);
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(14, 124, 107, 0.4), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gallery-item:hover .gallery-overlay {
+      opacity: 1;
+    }
+
+    .gallery-zoom-icon {
+      width: 44px;
+      height: 44px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: var(--teal);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+
+    .gallery-item:hover .gallery-zoom-icon {
+      transform: translateY(0);
+    }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox-content {
+      max-width: 90%;
+      max-height: 85vh;
+      border-radius: 10px;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      color: white;
+      font-size: 2.5rem;
+      cursor: pointer;
+      line-height: 1;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+
+    .lightbox-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: rotate(90deg);
+    }
+
+    /* ===== APPOINTMENT ===== */
+    .appointment {
+      background: var(--navy);
+    }
+
+    .appt-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .appt-left h2 {
+      font-family: var(--font-serif);
+      color: white;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .appt-left p {
+      color: rgba(255, 255, 255, 0.6);
+      line-height: 1.8;
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+    }
+
+    .appt-info-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .appt-info-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .appt-info-card .ic {
+      font-size: 20px;
+    }
+
+    .appt-info-card span {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.75rem;
+      display: block;
+    }
+
+    .appt-info-card strong {
+      color: white;
+      font-size: 0.9rem;
+      display: block;
+    }
+
+    .appt-form {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 2.5rem;
+    }
+
+    .appt-form h3 {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      color: var(--navy);
+      margin-bottom: 0.3rem;
+    }
+
+    .appt-form p {
+      font-size: 0.82rem;
+      color: var(--gray-text);
+      margin-bottom: 2rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      letter-spacing: 0.04em;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 0.7rem 0.9rem;
+      font-size: 0.88rem;
+      font-family: var(--font-sans);
+      color: var(--text-dark);
+      background: white;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--teal);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      color: white;
+      border: none;
+      padding: 1rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      transition: all 0.2s;
+      letter-spacing: 0.02em;
+    }
+
+    .submit-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .success-msg {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .success-msg .check {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .success-msg h4 {
+      font-family: var(--font-serif);
+      color: var(--teal);
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .success-msg p {
+      color: var(--gray-text);
+      font-size: 0.9rem;
+    }
+
+    /* ===== REVIEWS ===== */
+    .reviews {
+      background: var(--cream);
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .review-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 1.8rem;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .review-stars {
+      color: var(--gold);
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      letter-spacing: 2px;
+    }
+
+    .review-text {
+      font-size: 0.88rem;
+      color: var(--gray-text);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+
+    .review-author {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--teal), var(--navy));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .review-author span:first-child {
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: var(--text-dark);
+      display: block;
+    }
+
+    .review-author span:last-child {
+      font-size: 0.75rem;
+      color: var(--gray-text);
+    }
+
+    /* ===== FAQ ===== */
+    .faq {
+      background: var(--gray-soft);
+    }
+
+    .faq-container {
+      max-width: 850px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      background: var(--white);
+      border-radius: 15px;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .faq-item:hover {
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+      transform: translateY(-2px);
+    }
+
+    .faq-question {
+      padding: 1.4rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--navy);
+      transition: background 0.3s;
+    }
+
+    .faq-question span:first-child {
+      flex: 1;
+      padding-right: 1.5rem;
+      font-size: 1rem;
+    }
+
+    .faq-icon {
+      width: 24px;
+      height: 24px;
+      position: relative;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--teal);
+      font-size: 1.5rem;
+      font-weight: 400;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      background: #fafafa;
+    }
+
+    .faq-answer-inner {
+      padding: 0 2rem 1.5rem;
+      color: var(--gray-text);
+      line-height: 1.7;
+      font-size: 0.92rem;
+    }
+
+    .faq-item.active {
+      border-color: var(--teal);
+    }
+
+    .faq-item.active .faq-question {
+      color: var(--teal);
+    }
+
+    .faq-item.active .faq-icon {
+      transform: rotate(45deg);
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 300px;
+      /* Adjust based on content */
+    }
+
+    /* ===== MAP ===== */
+    .map-section {
+      background: var(--white);
+      padding: 5rem 2rem;
+    }
+
+    .map-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .map-container {
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+      height: 480px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .map-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .map-details {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .map-detail-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: var(--gray-soft);
+      border-radius: 12px;
+      padding: 1.2rem;
+    }
+
+    .map-detail-card .mic {
+      font-size: 22px;
+    }
+
+    .map-detail-card h4 {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .map-detail-card p {
+      font-size: 0.85rem;
+      color: var(--gray-text);
+      line-height: 1.6;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--navy);
+      color: white;
+      padding: 4rem 2rem 2rem;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-brand h3 {
+      font-family: var(--font-serif);
+      font-size: 1.4rem;
+      color: var(--gold-light);
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-brand p {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.85rem;
+      line-height: 1.8;
+      margin-bottom: 1.2rem;
+    }
+
+    .footer-col h4 {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold-light);
+      margin-bottom: 1rem;
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col ul li {
+      margin-bottom: 0.6rem;
+    }
+
+    .footer-col ul a {
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 0.85rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-col ul a:hover {
+      color: var(--gold-light);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-bottom p {
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 0.8rem;
+    }
+
+    .footer-emergency {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(192, 57, 43, 0.2);
+      border: 1px solid rgba(192, 57, 43, 0.4);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+    }
+
+    .footer-emergency span {
+      color: #ff6b6b;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    /* ===== STICKY EMERGENCY ===== */
+    .sticky-emergency {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 999;
+    }
+
+    .emer-btn {
+      background: var(--red-urgent);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.4rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(192, 57, 43, 0.5);
+      animation: emergencyPulse 2s infinite;
+      font-family: var(--font-sans);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    @keyframes emergencyPulse {
+
+      0%,
+      100% {
+        box-shadow: 0 8px 24px rgba(192, 57, 43, 0.5);
+      }
+
+      50% {
+        box-shadow: 0 8px 32px rgba(192, 57, 43, 0.8), 0 0 0 8px rgba(192, 57, 43, 0.1);
+      }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+
+      .hero-content,
+      .about-grid,
+      .appt-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-content {
+        padding-top: 6rem;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .map-details {
+        grid-template-columns: 1fr;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      nav .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero-stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about-features {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ===== CAROUSEL ===== */
+    .carousel-section {
+      position: relative;
+      margin-top: 68px;
+      /* offset for fixed nav */
+      background: #000;
+      overflow: hidden;
+    }
+
+    .carousel-wrapper {
+      position: relative;
+      width: 100%;
+      height: 600px;
+      overflow: hidden;
+    }
+
+    .carousel-track {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .carousel-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.7s ease-in-out, transform 0.7s ease-in-out;
+      transform: translateX(60px);
+    }
+
+    .carousel-slide.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .carousel-slide.exit-left {
+      opacity: 0;
+      transform: translateX(-60px);
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    /* Dark gradient overlay on slides */
+    .carousel-slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10, 22, 40, 0.65) 0%, rgba(10, 22, 40, 0.1) 50%, transparent 100%);
+      pointer-events: none;
+    }
+
+    .slide-caption {
+      position: absolute;
+      bottom: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(10, 22, 40, 0.6);
+      color: rgba(255, 255, 255, 0.9);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      padding: 6px 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      white-space: nowrap;
+      z-index: 5;
+      backdrop-filter: blur(4px);
+    }
+
+    /* Arrow buttons */
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      color: white;
+      font-size: 2.2rem;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(6px);
+      transition: background 0.2s, transform 0.2s;
+      line-height: 1;
+      padding-bottom: 2px;
+    }
+
+    .carousel-arrow:hover {
+      background: rgba(14, 124, 107, 0.7);
+      border-color: rgba(14, 124, 107, 0.9);
+      transform: translateY(-50%) scale(1.08);
+    }
+
+    .carousel-arrow.left {
+      left: 1.5rem;
+    }
+
+    .carousel-arrow.right {
+      right: 1.5rem;
+    }
+
+    /* Dots */
+    .carousel-dots {
+      position: absolute;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 10;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      cursor: pointer;
+      transition: background 0.25s, transform 0.25s;
+      border: none;
+      display: inline-block;
+    }
+
+    .dot.active {
+      background: #12a88f;
+      transform: scale(1.4);
+    }
+
+    /* Counter */
+    .carousel-counter {
+      position: absolute;
+      top: 14px;
+      right: 1.5rem;
+      background: rgba(10, 22, 40, 0.55);
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.78rem;
+      font-family: 'DM Sans', sans-serif;
+      padding: 4px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(4px);
+      z-index: 10;
+    }
+
+    @media (max-width: 768px) {
+      .carousel-wrapper {
+        height: 280px;
+      }
+
+      .carousel-arrow {
+        width: 38px;
+        height: 38px;
+        font-size: 1.6rem;
+      }
+
+      .slide-caption {
+        font-size: 0.72rem;
+        bottom: 52px;
+      }
+    }
+
+
+    /* ===== CAROUSEL ===== */
+    .carousel-section {
+      position: relative;
+      margin-top: 68px;
+      background: #0a1628;
+      overflow: hidden;
+    }
+
+    .carousel-wrapper {
+      position: relative;
+      width: 100%;
+      height: 600px;
+      overflow: hidden;
+    }
+
+    .carousel-track {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .carousel-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.65s ease, transform 0.65s ease;
+      transform: translateX(50px);
+      overflow: hidden;
+    }
+
+    .carousel-slide.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .carousel-slide.exit-left {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+
+    /* Bottom gradient only for landscape slides that have a direct <img> child */
+    .carousel-slide>img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .carousel-slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10, 22, 40, 0.6) 0%, rgba(10, 22, 40, 0.05) 45%, transparent 100%);
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    .slide-caption {
+      position: absolute;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(10, 22, 40, 0.65);
+      color: rgba(255, 255, 255, 0.9);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      padding: 5px 16px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      white-space: nowrap;
+      z-index: 10;
+      backdrop-filter: blur(4px);
+    }
+
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 20;
+      background: rgba(255, 255, 255, 0.13);
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      color: white;
+      font-size: 2.2rem;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(6px);
+      transition: background 0.2s, transform 0.2s;
+      padding-bottom: 2px;
+    }
+
+    .carousel-arrow:hover {
+      background: rgba(14, 124, 107, 0.75);
+      border-color: rgba(14, 124, 107, 0.9);
+      transform: translateY(-50%) scale(1.08);
+    }
+
+    .carousel-arrow.left {
+      left: 1.5rem;
+    }
+
+    .carousel-arrow.right {
+      right: 1.5rem;
+    }
+
+    .carousel-dots {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 20;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      cursor: pointer;
+      transition: background 0.25s, transform 0.25s;
+      border: none;
+      display: inline-block;
+    }
+
+    .dot.active {
+      background: #12a88f;
+      transform: scale(1.4);
+    }
+
+    .carousel-counter {
+      position: absolute;
+      top: 14px;
+      right: 1.5rem;
+      background: rgba(10, 22, 40, 0.55);
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.78rem;
+      font-family: 'DM Sans', sans-serif;
+      padding: 4px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(4px);
+      z-index: 20;
+    }
+
+    @media(max-width:768px) {
+      .carousel-wrapper {
+        height: 320px;
+      }
+
+      .carousel-arrow {
+        width: 38px;
+        height: 38px;
+        font-size: 1.6rem;
+      }
+
+      .slide-caption {
+        font-size: 0.7rem;
+        bottom: 48px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- STICKY EMERGENCY -->
+  <a href="tel:+918885647808" class="sticky-emergency"><button class="emer-btn">🚨 Emergency 24×7</button></a>
+
+  <!-- NAVBAR -->
+  <nav>
+    <div class="nav-brand">
+      <div class="nav-logo">
+        <img src="logo.png" alt="SGL Hospital Logo">
+      </div>
+      <div class="nav-title">
+        <span>SGL Hospital</span>
+        <span>Dr. B. Sandeep · General &amp; Laparoscopic Surgery</span>
+      </div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#appointment">Book OP</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#map">Location</a></li>
+      <li><a href="javascript:void(0)" onclick="openGallery()">Gallery</a></li>
+    </ul>
+    <button class="nav-cta" onclick="document.getElementById('appointment').scrollIntoView({behavior:'smooth'})">Book
+      Appointment</button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <video class="hero-video-bg" autoplay loop muted playsinline>
+      <source src="header video.mp4" type="video/mp4">
+    </video>
+    <div class="hero-bg-pattern"></div>
+    <div class="hero-circle-1"></div>
+    <div class="hero-circle-2"></div>
+    <div class="hero-content">
+      <div>
+        <div class="hero-badge">
+          <div class="pulse-dot"></div><span>Emergency Care Available 24 × 7</span>
+        </div>
+        <h1>Dr. B. Sandeep<span>Hospital · Eluru</span></h1>
+        <div class="hero-subtitle">SGL Hospital — General Surgery · Laparoscopic &amp; Laser Centre</div>
+        <div class="hero-tel-name">డాక్టర్ బి. సందీప్ ఆసుపత్రి · ఏలూరు</div>
+        <p class="hero-desc">Advanced Laparoscopic, Laser &amp; General Surgical Care. Serving Eluru and the Coastal
+          Andhra Region with state-of-the-art minimally invasive procedures and compassionate round-the-clock care.</p>
+        <div class="hero-btns">
+          <a href="#appointment" class="btn-primary">📋 Book OP Appointment</a>
+          <a href="tel:+918885647808" class="btn-outline">📞 Call Now</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-card"><span class="stat-num">24/7</span><span class="stat-label">Emergency Services</span>
+          </div>
+          <div class="stat-card"><span class="stat-num">4+</span><span class="stat-label">Surgical Specialties</span>
+          </div>
+          <div class="stat-card"><span class="stat-num">Lap</span><span class="stat-label">Laparoscopic Centre</span>
+          </div>
+          <div class="stat-card"><span class="stat-num">Laser</span><span class="stat-label">Laser Procedures</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="section-inner">
+      <div class="about-grid">
+        <div class="about-visual">
+          <div class="about-img-placeholder">
+            <img class="doctor-photo" id="doctorAboutPhoto" src="doctor.png" alt="Dr. B. Sandeep">
+            <h3>Dr. B. Sandeep</h3>
+            <p>M.S., FIAGES, FALS<br>General Surgeon &amp; Laparoscopic Specialist<br>Colorectal &amp; Proctologist</p>
+          </div>
+          <div class="about-badge-float"><span>SGL</span>Hospital</div>
+        </div>
+        <div class="about-text">
+          <div class="section-tag">About the Hospital</div>
+          <h2 class="section-title">Expert Surgical Care<br>in <span>Coastal Andhra</span></h2>
+          <div class="divider"></div>
+          <p style="color: var(--gray-text); line-height: 1.9; font-size: 0.95rem; margin-bottom: 1rem;">Dr. B. Sandeep
+            Hospital (SGL Hospital) in Eluru is a trusted surgical care centre specialising in advanced Laparoscopic,
+            Laser, and General Surgeries. Located in the heart of Ramachandra Rao Pet, the hospital is equipped to
+            handle everything from routine procedures to complex minimally invasive surgeries.</p>
+          <p style="color: var(--gray-text); line-height: 1.9; font-size: 0.95rem; margin-bottom: 1.5rem;">With
+            round-the-clock availability, the hospital ensures that emergency cases receive immediate attention. The
+            team is committed to delivering safe, effective and compassionate surgical outcomes.</p>
+          <div class="about-features">
+            <div class="feat-item">Laparoscopic Surgery Centre</div>
+            <div class="feat-item">Laser Procedures</div>
+            <div class="feat-item">24/7 Emergency Care</div>
+            <div class="feat-item">General Surgery OPD</div>
+            <div class="feat-item">Diabetic Foot Care</div>
+            <div class="feat-item">Minimally Invasive Surgery</div>
+            <div class="feat-item">Gall Bladder Surgery</div>
+            <div class="feat-item">Varicose Vein Treatment</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="section-inner">
+      <div class="section-head">
+        <div class="section-tag">Our Specialties</div>
+        <h2 class="section-title">Comprehensive <span>Surgical Services</span></h2>
+        <div class="divider"></div>
+        <p class="section-desc">From advanced laparoscopic procedures to laser surgeries and emergency care — we cover a
+          wide spectrum of surgical needs under one roof.</p>
+      </div>
+      <div class="services-grid">
+
+        <!-- Gastro -->
+        <div class="service-card gastro">
+          <div class="svc-icon">🔬</div>
+          <h3>Gastro Surgeries</h3>
+          <div class="tel">గ్యాస్ట్రో సర్జరీస్ · లాప్రోస్కోపిక్ శస్త్రచికిత్సలు</div>
+          <ul class="svc-list">
+            <li><span class="en">Gall Bladder / Gall Stones</span><span class="te">పిత్తాశయ రాళ్ళు, కామెర్లు</span></li>
+            <li><span class="en">Hysterectomy</span><span class="te">గర్భాశయ శస్త్రచికిత్సలు</span></li>
+            <li><span class="en">Ovarian Cyst</span><span class="te">అండాశయ గడ్డలు</span></li>
+            <li><span class="en">Appendicitis (24hr)</span><span class="te">అపెండిసైటిస్</span></li>
+            <li><span class="en">All Lap Hernias</span><span class="te">అన్ని రకాల ల్యాప్ హెర్నియాలు</span></li>
+            <li><span class="en">Advanced Lap Surgeries</span><span class="te">అధునాతన లాప్రోస్కోపిక్</span></li>
+          </ul>
+        </div>
+
+        <!-- Laser -->
+        <div class="service-card laser">
+          <div class="svc-icon">✨</div>
+          <h3>Laser Surgeries</h3>
+          <div class="tel">లేజర్ శస్త్రచికిత్సలు</div>
+          <ul class="svc-list">
+            <li><span class="en">Fistula</span><span class="te">ఫిస్టులా</span></li>
+            <li><span class="en">Haemorrhoids (Piles)</span><span class="te">మొలలు</span></li>
+            <li><span class="en">Fissures</span><span class="te">ఫిషర్స్, పగుళ్లు</span></li>
+            <li><span class="en">Varicose Veins</span><span class="te">అనారోగ్య సిరలు, వెరికోస్ వెన్స్</span></li>
+          </ul>
+        </div>
+
+        <!-- General -->
+        <div class="service-card general">
+          <div class="svc-icon">🏥</div>
+          <h3>General Surgeries</h3>
+          <div class="tel">సాధారణ శస్త్రచికిత్సలు</div>
+          <ul class="svc-list">
+            <li><span class="en">Hydrocele</span><span class="te">హైడ్రోసెల్</span></li>
+            <li><span class="en">Thyroid Disorders</span><span class="te">థైరాయిడ్ శస్త్రచికిత్సలు</span></li>
+            <li><span class="en">Breast Surgery</span><span class="te">రొమ్ము శస్త్రచికిత్స</span></li>
+            <li><span class="en">Skin Grafting</span><span class="te">స్కిన్ గ్రాఫ్టింగ్</span></li>
+            <li><span class="en">Leg Amputation</span><span class="te">కాలు తొలగించడం</span></li>
+            <li><span class="en">Head/Neck/Back Swellings</span><span class="te">తల, మెడ, వీపు వాపులు</span></li>
+          </ul>
+        </div>
+
+        <!-- Diabetes -->
+        <div class="service-card diabetes">
+          <div class="svc-icon">💉</div>
+          <h3>Diabetes Care</h3>
+          <div class="tel">మధుమేహం, షుగర్ సంబంధించిన సమస్యలు</div>
+          <ul class="svc-list">
+            <li><span class="en">Diabetic Foot</span><span class="te">డయాబెటిక్ పాదం</span></li>
+            <li><span class="en">Cellulitis / Abscess</span><span class="te">సెల్యులైటిస్, కురుపులు</span></li>
+            <li><span class="en">Gangrene of Foot</span><span class="te">పాదాల గ్యాంగ్రీన్</span></li>
+            <li><span class="en">Uncontrolled Diabetes</span><span class="te">నియంత్రిచలేని మధుమేహం</span></li>
+            <li><span class="en">Diabetic Ulcer / Foot Infection</span><span class="te">డయాబెటిక్ అల్సర్</span></li>
+          </ul>
+        </div>
+
+        <!-- Emergency / General Problems -->
+        <div class="service-card emergency" style="grid-column: span 2 / auto;">
+          <div class="svc-icon">🚨</div>
+          <h3>Emergency & General Problems</h3>
+          <div class="tel">అత్యవసర కేసులు 24×7 అందుబాటులో ఉన్నాయి · సాధారణ సమస్యలు</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0 2rem;">
+            <ul class="svc-list">
+              <li><span class="en">Pain Abdomen</span><span class="te">కడుపు నొప్పి</span></li>
+              <li><span class="en">Headache · Leg Pain · Vomiting</span><span class="te">తలనొప్పి, కాళ్ళ నొప్పి,
+                  వాంతులు</span></li>
+            </ul>
+            <ul class="svc-list">
+              <li><span class="en">Fever · Dengue · Malaria · Platelet Cases</span><span class="te">జ్వరం, డెంగ్యూ,
+                  మలేరియా, ప్లేట్లెట్</span></li>
+              <li><span class="en">All Minor Procedures</span><span class="te">అన్ని రకాల శస్త్రచికిత్సలు</span></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="gallery" id="gallery">
+    <div class="gallery-close" onclick="closeGallery()">×</div>
+    <div class="section-inner">
+      <div class="section-head">
+        <div class="section-tag">Hospital Tour</div>
+        <h2 class="section-title">Our <span>Facility Gallery</span></h2>
+        <div class="divider"></div>
+        <p class="section-desc">Take a look inside SGL Hospital. Our modern facility is designed for patient comfort,
+          surgical precision, and efficient care delivery.</p>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-item" onclick="openLightbox('unnamed (1).jpg')">
+          <img src="unnamed (1).jpg" alt="Hospital Front View">
+          <div class="gallery-overlay"><span class="gallery-zoom-icon">🔍</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('unnamed (3).jpg')">
+          <img src="unnamed (3).jpg" alt="SGL Hospital Building">
+          <div class="gallery-overlay"><span class="gallery-zoom-icon">🔍</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('unnamed (4).jpg')">
+          <img src="unnamed (4).jpg" alt="Hospital Side View">
+          <div class="gallery-overlay"><span class="gallery-zoom-icon">🔍</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('surgical.png')">
+          <img src="surgical.png" alt="Surgical Technology">
+          <div class="gallery-overlay"><span class="gallery-zoom-icon">🔍</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('doctor.png')">
+          <img src="doctor.png" alt="Dr. B. Sandeep">
+          <div class="gallery-overlay"><span class="gallery-zoom-icon">🔍</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('unnamed (1).jpg')">
+          <img src="unnamed (1).jpg" alt="Laparoscopic Centre">
+          <div class="gallery-overlay"><span class="gallery-zoom-icon">🔍</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox Element -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">×</span>
+    <img src="" class="lightbox-content" id="lightboxImg" onclick="event.stopPropagation()">
+  </div>
+
+  <!-- APPOINTMENT BOOKING -->
+  <section class="appointment" id="appointment">
+    <div class="section-inner">
+      <div class="appt-grid">
+        <div class="appt-left">
+          <div class="section-tag" style="color: var(--gold-light);">Book OP Consultation</div>
+          <h2>Schedule Your<br>Appointment</h2>
+          <p>Book an outpatient (OP) appointment with Dr. B. Sandeep's team. Walk-in patients also welcome. Emergency
+            cases handled 24×7.</p>
+          <div class="appt-info-cards">
+            <div class="appt-info-card">
+              <span class="ic">📍</span>
+              <div><span>Location</span><strong>Venkateswara Swamy Temple Road, R.R. Peta, Eluru - 2, Andhra Pradesh,
+                  Pin - 534002</strong>
+              </div>
+            </div>
+            <div class="appt-info-card">
+              <span class="ic">🕐</span>
+              <div><span>Hours</span><strong>Open 24/7 · Sunday to Saturday</strong></div>
+            </div>
+            <div class="appt-info-card">
+              <span class="ic">🚨</span>
+              <div><span>Emergency</span><strong>Available Round-the-Clock · 24×7</strong></div>
+            </div>
+            <div class="appt-info-card">
+              <span class="ic">🏥</span>
+              <div><span>Specialty</span><strong>General · Laparoscopic · Laser Surgery</strong></div>
+            </div>
+            <div class="appt-info-card">
+              <span class="ic">📞</span>
+              <div>
+                <span>Contact</span>
+                <strong>Landline: 08812 252566</strong>
+                <strong>Cell: 9989799521, 9502591688</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="appt-form" id="apptFormWrapper">
+            <h3>Book OP Appointment</h3>
+            <p>Fill the form below — our team will confirm your slot</p>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Full Name *</label>
+                <input type="text" id="f_name" placeholder="Your full name" required>
+              </div>
+              <div class="form-group">
+                <label>Phone Number *</label>
+                <input type="tel" id="f_phone" placeholder="10-digit mobile number" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Age</label>
+                <input type="number" id="f_age" placeholder="Your age" min="1" max="120">
+              </div>
+              <div class="form-group">
+                <label>Gender</label>
+                <select id="f_gender">
+                  <option value="">Select</option>
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Preferred Appointment Date *</label>
+              <input type="date" id="f_date" required>
+            </div>
+            <div class="form-group">
+              <label>Department / Concern</label>
+              <select id="f_dept">
+                <option value="">Select department</option>
+                <option>Gastro / Laparoscopic Surgery</option>
+                <option>Laser Surgery (Piles, Fistula, Fissure)</option>
+                <option>Varicose Veins</option>
+                <option>General Surgery</option>
+                <option>Diabetes / Diabetic Foot Care</option>
+                <option>Thyroid Surgery</option>
+                <option>Breast Surgery</option>
+                <option>Emergency / Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Brief Description of Complaint</label>
+              <textarea id="f_msg" placeholder="Describe your symptoms or concern briefly..."></textarea>
+            </div>
+            <button class="submit-btn" onclick="submitAppointment()">Confirm Appointment →</button>
+          </div>
+          <div class="success-msg" id="successMsg">
+            <div class="check">✅</div>
+            <h4>Appointment Requested!</h4>
+            <p>Thank you! Your OP appointment request has been received. Our team will call you on the provided number
+              to confirm your slot.</p>
+            <p style="margin-top: 1rem; font-size: 0.82rem; color: #999;">For emergency cases, please call directly or
+              visit the hospital — we are available 24×7.</p>
+            <button onclick="resetForm()"
+              style="margin-top: 1.5rem; background: var(--teal); color: white; border: none; padding: 0.6rem 1.5rem; border-radius: 8px; cursor: pointer; font-family: var(--font-sans); font-size: 0.9rem;">Book
+              Another</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="reviews" id="reviews">
+    <div class="section-inner">
+      <div class="section-head">
+        <div class="section-tag">Patient Testimonials</div>
+        <h2 class="section-title">What Our <span>Patients Say</span></h2>
+        <div class="divider"></div>
+      </div>
+      <div class="reviews-grid">
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Excellent service by Dr. Sandeep. The laparoscopic surgery for gall bladder went very
+            smoothly. Recovered very fast compared to what I expected. Highly recommended hospital in Eluru."</p>
+          <div class="review-author">
+            <div class="avatar">RK</div>
+            <div><span>Ravi Kumar</span><span>Eluru, Andhra Pradesh</span></div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"My mother had a hernia operation here. The staff was very caring and attentive. Dr.
+            Sandeep explained everything clearly before the surgery. Very professional team and clean hospital."</p>
+          <div class="review-author">
+            <div class="avatar">SL</div>
+            <div><span>Sunitha Lakshmi</span><span>Bhimavaram</span></div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Treated for piles with laser surgery. The procedure was painless and recovery was
+            quick. Dr. Sandeep is very experienced and the hospital atmosphere is calm and supportive. Thank you!"</p>
+          <div class="review-author">
+            <div class="avatar">VP</div>
+            <div><span>Venkata Prasad</span><span>Eluru</span></div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Emergency appendix case at 2 AM — the hospital staff responded immediately and the
+            surgery was done within hours. Saved my son's life. Forever grateful to Dr. Sandeep and his team."</p>
+          <div class="review-author">
+            <div class="avatar">MR</div>
+            <div><span>Madhuri Reddy</span><span>Tanuku</span></div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Had varicose vein treatment done here. Doctor explained the laser procedure in simple
+            terms. The results are great and there were no complications. Clean and well-maintained hospital."</p>
+          <div class="review-author">
+            <div class="avatar">KN</div>
+            <div><span>Krishna Naidu</span><span>Eluru</span></div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"My father's diabetic foot wound was serious but Dr. Sandeep's treatment helped him
+            recover well without amputation. The care given at every stage was outstanding. Best surgical hospital in
+            this region."</p>
+          <div class="review-author">
+            <div class="avatar">AT</div>
+            <div><span>Anitha Teja</span><span>Nidadavole</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ SECTION -->
+  <section class="faq" id="faq">
+    <div class="section-inner">
+      <div class="section-head">
+        <div class="section-tag">Helpful Information</div>
+        <h2 class="section-title">Frequently Asked <span>Questions</span></h2>
+        <div class="divider"></div>
+      </div>
+      <div class="faq-container">
+        <!-- FAQ 1 -->
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span>What are the hospital consultation hours?</span>
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Our outpatient (OP) consultation hours are from 7:00 AM to 2:00 PM and 5:00 PM to 7:00 PM. Emergency
+              services are available 24/7.
+            </div>
+          </div>
+        </div>
+        <!-- FAQ 2 -->
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span>Is there an emergency surgery facility available at night?</span>
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Yes, Dr. B. Sandeep and our surgical team are available for emergency cases 24/7. We handle acute
+              appendix, trauma, and other urgent surgical needs at any time of the night.
+            </div>
+          </div>
+        </div>
+        <!-- FAQ 3 -->
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span>Do you provide laser treatment for piles and fistula?</span>
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Yes, we specialize in advanced laser procedures for Piles, Fistula, Fissure, and Varicose Veins, which
+              offer faster recovery and minimal pain.
+            </div>
+          </div>
+        </div>
+        <!-- FAQ 4 -->
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span>How can I book an appointment?</span>
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              You can book an appointment directly through our website form, by calling our helpline numbers, or by
+              visiting the hospital reception in Eluru.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAP SECTION -->
+  <section class="map-section" id="map">
+    <div class="map-wrapper">
+      <div class="section-head">
+        <div class="section-tag">Find Us</div>
+        <h2 class="section-title">Hospital <span>Location</span></h2>
+        <div class="divider"></div>
+        <p class="section-desc" style="margin: 0 auto;">SGL Hospital is located in Ramachandra Rao Pet, Eluru, Andhra
+          Pradesh — easily accessible from all parts of the city.</p>
+      </div>
+      <div class="map-container">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3843.512!2d81.0982196!3d16.7108289!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a36150032736893%3A0x74e644a4763d54dc!2sSGL%20hospital.%20Dr.b.sandeep%20hospital%20Eluru!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+          allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="SGL Hospital Location Map">
+        </iframe>
+      </div>
+      <div class="map-details">
+        <div class="map-detail-card">
+          <span class="mic">📍</span>
+          <div>
+            <h4>Address</h4>
+            <p>P462+74R, Ramachandra Rao Pet, Eluru, Andhra Pradesh 534002</p>
+          </div>
+        </div>
+        <div class="map-detail-card">
+          <span class="mic">🕐</span>
+          <div>
+            <h4>Hours</h4>
+            <p>Open 24 Hours, 7 Days a Week<br>Sunday to Saturday</p>
+          </div>
+        </div>
+        <div class="map-detail-card">
+          <span class="mic">🚌</span>
+          <div>
+            <h4>How to Reach</h4>
+            <p>Centrally located in Eluru city. Auto-rickshaws and cabs available from Eluru Bus Stand.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>SGL Hospital</h3>
+          <p>Dr. B. Sandeep Hospital — Eluru<br>Advanced Laparoscopic, Laser &amp; General Surgical Centre serving
+            Coastal Andhra since inception. Committed to precision, care &amp; compassion.</p>
+          <div class="footer-emergency"><span>🚨</span><span>Emergency 24×7 · అత్యవసర కేసులు</span></div>
+        </div>
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="#services">Gastro / Lap Surgery</a></li>
+            <li><a href="#services">Laser Surgeries</a></li>
+            <li><a href="#services">General Surgery</a></li>
+            <li><a href="#services">Diabetes Care</a></li>
+            <li><a href="#services">Emergency Cases</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#about">About Hospital</a></li>
+            <li><a href="#appointment">Book Appointment</a></li>
+            <li><a href="#reviews">Patient Reviews</a></li>
+            <li><a href="javascript:void(0)" onclick="openGallery()">Hospital Gallery</a></li>
+            <li><a href="#map">Location / Map</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="tel:08812252566">📞 08812 252566</a></li>
+            <li><a href="tel:9989799521">📱 99897 99521</a></li>
+            <li><a href="tel:9502591688">📱 95025 91688</a></li>
+            <li><a href="#map">📍 View on Map</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 SGL Hospital – Dr. B. Sandeep Hospital, Eluru. All rights reserved.</p>
+        <p style="color: rgba(255,255,255,0.3); font-size: 0.78rem;">Designed for SGL Hospital, Eluru, Andhra Pradesh
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Set min date to today for appointment picker
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('f_date').min = today;
+    document.getElementById('f_date').value = today;
+
+    function submitAppointment() {
+      const name = document.getElementById('f_name').value.trim();
+      const phone = document.getElementById('f_phone').value.trim();
+      const date = document.getElementById('f_date').value;
+      if (!name) { alert('Please enter your full name.'); return; }
+      if (!phone || phone.length < 10) { alert('Please enter a valid 10-digit phone number.'); return; }
+      if (!date) { alert('Please select a preferred date.'); return; }
+      document.getElementById('apptFormWrapper').style.display = 'none';
+      document.getElementById('successMsg').style.display = 'block';
+    }
+
+    function resetForm() {
+      document.getElementById('f_name').value = '';
+      document.getElementById('f_phone').value = '';
+      document.getElementById('f_age').value = '';
+      document.getElementById('f_gender').value = '';
+      document.getElementById('f_date').value = today;
+      document.getElementById('f_dept').value = '';
+      document.getElementById('f_msg').value = '';
+      document.getElementById('apptFormWrapper').style.display = 'block';
+      document.getElementById('successMsg').style.display = 'none';
+    }
+
+    // Smooth nav highlight on scroll
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let cur = '';
+      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) cur = s.id; });
+      navLinks.forEach(a => { a.style.color = a.getAttribute('href') === '#' + cur ? 'var(--gold-light)' : ''; });
+    });
+
+    // ===== GALLERY LIGHTBOX =====
+    function openLightbox(src) {
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightboxImg');
+      lightboxImg.src = src;
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden'; // prevent scroll
+    }
+
+    function closeLightbox() {
+      const lightbox = document.getElementById('lightbox');
+      lightbox.classList.remove('active');
+      document.body.style.overflow = ''; // restore scroll
+    }
+
+    // Escape key to close lightbox
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (document.getElementById('lightbox').classList.contains('active')) {
+          closeLightbox();
+        } else {
+          closeGallery();
+        }
+      }
+    });
+
+    // ===== GALLERY MODAL LOGIC =====
+    function openGallery() {
+      document.getElementById('gallery').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeGallery() {
+      document.getElementById('gallery').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // ===== FAQ ACCORDION =====
+    function toggleFaq(element) {
+      const item = element.parentElement;
+      const isActive = item.classList.contains('active');
+
+      // Close all other items
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+
+      // Toggle current item
+      if (!isActive) {
+        item.classList.add('active');
+      }
+    }
+
+
+
+  </script>
+</body>
+
+</html>
