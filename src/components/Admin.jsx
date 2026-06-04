@@ -60,7 +60,7 @@ const Admin = () => {
   return (
     <div style={styles.adminContainer}>
       <div style={styles.header}>
-        <h2 style={{ fontFamily: 'var(--font-serif)', color: 'var(--navy)' }}>Appointments (Google Sheets)</h2>
+        <h2 style={{ fontFamily: 'var(--font-serif)', color: 'var(--navy)' }}>SGL Appointments</h2>
         <div>
           <button onClick={() => fetchAppointments()} style={{...styles.backBtn, marginRight: '10px'}}>↻ Refresh</button>
           <button onClick={() => window.location.href = '/'} style={styles.backBtn}>← Back to Website</button>
