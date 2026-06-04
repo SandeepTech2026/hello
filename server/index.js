@@ -1,31 +1,66 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const fs = require('fs');
 const path = require('path');
-const ExcelJS = require('exceljs');
-const cron = require('node-cron');
+const fs = require('fs');
+const { GoogleSpreadsheet } = require('google-spreadsheet');
+const { JWT } = require('google-auth-library');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-const DATA_DIR = path.join(__dirname, 'data');
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
-// Ensure data directory exists
-if (!fs.existsSync(DATA_DIR)) {
-  fs.mkdirSync(DATA_DIR, { recursive: true });
-}
+// ---------------------------------------------------------
+// Google Sheets Setup
+// ---------------------------------------------------------
+// Environment variables required:
+// GOOGLE_SERVICE_ACCOUNT_EMAIL
+// GOOGLE_PRIVATE_KEY
+// SPREADSHEET_ID
 
-// ---------------------------------------------------------
-// Helper: Get today's filename (e.g. appointments_2023-10-25.xlsx)
-// ---------------------------------------------------------
-const getTodayFilename = () => {
-  const date = new Date();
-  const dateString = date.toISOString().split('T')[0];
-  return `appointments_${dateString}.xlsx`;
+let doc = null;
+
+const initializeGoogleSheets = async () => {
+  try {
+    if (!process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL || !process.env.GOOGLE_PRIVATE_KEY || !process.env.SPREADSHEET_ID) {
+      console.warn('⚠️ Google Sheets credentials are not fully set in environment variables.');
+      return;
+    }
+
+    // Format the private key properly (replace literal \n with actual newlines)
+    const privateKey = process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n');
+
+    const serviceAccountAuth = new JWT({
+      email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+      key: privateKey,
+      scopes: [
+        'https://www.googleapis.com/auth/spreadsheets',
+      ],
+    });
+
+    doc = new GoogleSpreadsheet(process.env.SPREADSHEET_ID, serviceAccountAuth);
+    await doc.loadInfo(); 
+    console.log(`✅ Connected to Google Sheet: ${doc.title}`);
+
+    // Ensure headers exist on the first sheet
+    const sheet = doc.sheetsByIndex[0];
+    try {
+      await sheet.loadHeaderRow();
+    } catch (e) {
+      // If it fails, the sheet might be empty. Let's set headers.
+      await sheet.setHeaderRow([
+        'Time Booked', 'Full Name', 'Phone', 'Age', 'Gender', 'Pref. Date', 'Department', 'Message'
+      ]);
+    }
+  } catch (error) {
+    console.error('❌ Error initializing Google Sheets:', error);
+  }
 };
+
+initializeGoogleSheets();
 
 // ---------------------------------------------------------
 // Endpoint: Save Appointment
@@ -38,44 +73,25 @@ app.post('/api/appointments', async (req, res) => {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    const filename = getTodayFilename();
-    const filePath = path.join(DATA_DIR, filename);
-    const workbook = new ExcelJS.Workbook();
-    let worksheet;
-
-    if (fs.existsSync(filePath)) {
-      await workbook.xlsx.readFile(filePath);
-      worksheet = workbook.getWorksheet(1);
-    } else {
-      worksheet = workbook.addWorksheet('Appointments');
+    if (!doc) {
+      return res.status(500).json({ error: 'Google Sheets integration is not configured yet.' });
     }
 
-    // Always ensure columns are defined so keys map correctly when adding rows
-    worksheet.columns = [
-      { header: 'Time Booked', key: 'timestamp', width: 20 },
-      { header: 'Full Name', key: 'name', width: 25 },
-      { header: 'Phone', key: 'phone', width: 15 },
-      { header: 'Age', key: 'age', width: 10 },
-      { header: 'Gender', key: 'gender', width: 15 },
-      { header: 'Pref. Date', key: 'prefDate', width: 15 },
-      { header: 'Department', key: 'dept', width: 35 },
-      { header: 'Message', key: 'msg', width: 50 }
-    ];
-
+    const sheet = doc.sheetsByIndex[0];
+    
     // Append row
-    worksheet.addRow({
-      timestamp: new Date().toLocaleString(),
-      name: f_name,
-      phone: f_phone,
-      age: f_age || '',
-      gender: f_gender || '',
-      prefDate: f_date,
-      dept: f_dept || '',
-      msg: f_msg || ''
+    await sheet.addRow({
+      'Time Booked': new Date().toLocaleString(),
+      'Full Name': f_name,
+      'Phone': f_phone,
+      'Age': f_age || '',
+      'Gender': f_gender || '',
+      'Pref. Date': f_date,
+      'Department': f_dept || '',
+      'Message': f_msg || ''
     });
 
-    await workbook.xlsx.writeFile(filePath);
-    res.status(201).json({ message: 'Appointment saved successfully' });
+    res.status(201).json({ message: 'Appointment saved successfully to Google Sheets' });
   } catch (error) {
     console.error('Error saving appointment:', error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -83,155 +99,54 @@ app.post('/api/appointments', async (req, res) => {
 });
 
 // ---------------------------------------------------------
-// Endpoint: List Excel Sheets (Admin)
+// Endpoint: Get all Appointments (Admin)
 // ---------------------------------------------------------
-app.get('/api/sheets', (req, res) => {
+app.get('/api/appointments', async (req, res) => {
   try {
-    const files = fs.readdirSync(DATA_DIR).filter(f => f.endsWith('.xlsx'));
-    
-    const fileData = files.map(filename => {
-      const filePath = path.join(DATA_DIR, filename);
-      const stats = fs.statSync(filePath);
-      return {
-        filename,
-        createdAt: stats.birthtime,
-        size: stats.size
-      };
-    });
-    
-    // Sort newest first
-    fileData.sort((a, b) => b.createdAt - a.createdAt);
-    
-    res.json(fileData);
+    if (!doc) {
+      return res.status(500).json({ error: 'Google Sheets integration is not configured yet.' });
+    }
+
+    const sheet = doc.sheetsByIndex[0];
+    const rows = await sheet.getRows();
+
+    // Map rows to JSON
+    const data = rows.map(row => ({
+      timestamp: row.get('Time Booked') || '',
+      name: row.get('Full Name') || '',
+      phone: row.get('Phone') || '',
+      age: row.get('Age') || '',
+      gender: row.get('Gender') || '',
+      prefDate: row.get('Pref. Date') || '',
+      dept: row.get('Department') || '',
+      msg: row.get('Message') || ''
+    }));
+
+    // Reverse to show newest first
+    res.json(data.reverse());
   } catch (error) {
-    console.error('Error reading sheets:', error);
+    console.error('Error fetching appointments:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
 // ---------------------------------------------------------
-// Endpoint: View Excel Sheet Content (Admin)
+// Serve Frontend (Production)
 // ---------------------------------------------------------
-app.get('/api/sheets/:filename/view', async (req, res) => {
-  try {
-    const { filename } = req.params;
-    
-    if (filename.includes('..') || !filename.endsWith('.xlsx')) {
-      return res.status(400).json({ error: 'Invalid filename' });
-    }
-
-    const filePath = path.join(DATA_DIR, filename);
-    
-    if (!fs.existsSync(filePath)) {
-      return res.status(404).json({ error: 'Sheet not found' });
-    }
-
-    const workbook = new ExcelJS.Workbook();
-    await workbook.xlsx.readFile(filePath);
-    const worksheet = workbook.getWorksheet(1);
-    
-    const rows = [];
-    worksheet.eachRow((row, rowNumber) => {
-      if (rowNumber === 1) return; // Skip header row
-      rows.push({
-        timestamp: row.getCell(1).value?.toString() || '',
-        name: row.getCell(2).value?.toString() || '',
-        phone: row.getCell(3).value?.toString() || '',
-        age: row.getCell(4).value?.toString() || '',
-        gender: row.getCell(5).value?.toString() || '',
-        prefDate: row.getCell(6).value?.toString() || '',
-        dept: row.getCell(7).value?.toString() || '',
-        msg: row.getCell(8).value?.toString() || ''
-      });
-    });
-
-    res.json(rows);
-  } catch (error) {
-    console.error('Error viewing sheet:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-// ---------------------------------------------------------
-// Endpoint: Download Excel Sheet (Admin)
-// ---------------------------------------------------------
-app.get('/api/sheets/:filename/download', (req, res) => {
-  try {
-    const { filename } = req.params;
-    
-    if (filename.includes('..') || !filename.endsWith('.xlsx')) {
-      return res.status(400).json({ error: 'Invalid filename' });
-    }
-
-    const filePath = path.join(DATA_DIR, filename);
-    
-    if (fs.existsSync(filePath)) {
-      res.download(filePath);
+const clientDistPath = path.join(__dirname, '..', 'dist');
+if (fs.existsSync(clientDistPath)) {
+  app.use(express.static(clientDistPath));
+  
+  // Handle client-side routing, return all requests to React app
+  app.use((req, res, next) => {
+    // Exclude API routes
+    if (!req.path.startsWith('/api/')) {
+      res.sendFile(path.join(clientDistPath, 'index.html'));
     } else {
-      res.status(404).json({ error: 'Sheet not found' });
+      next();
     }
-  } catch (error) {
-    console.error('Error downloading sheet:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-// ---------------------------------------------------------
-// Endpoint: Delete Excel Sheet (Admin)
-// ---------------------------------------------------------
-app.delete('/api/sheets/:filename', (req, res) => {
-  try {
-    const { filename } = req.params;
-    
-    // Basic security check to prevent directory traversal
-    if (filename.includes('..') || !filename.endsWith('.xlsx')) {
-      return res.status(400).json({ error: 'Invalid filename' });
-    }
-
-    const filePath = path.join(DATA_DIR, filename);
-    
-    if (fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath);
-      return res.json({ message: 'Sheet deleted successfully' });
-    } else {
-      return res.status(404).json({ error: 'Sheet not found' });
-    }
-  } catch (error) {
-    console.error('Error deleting sheet:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-// ---------------------------------------------------------
-// Cron Job: Auto-delete sheets older than 30 days
-// Runs every day at midnight (00:00)
-// ---------------------------------------------------------
-cron.schedule('0 0 * * *', () => {
-  console.log('Running daily cron job to clean up old Excel sheets...');
-  try {
-    const files = fs.readdirSync(DATA_DIR);
-    const now = Date.now();
-    const thirtyDaysInMs = 30 * 24 * 60 * 60 * 1000;
-
-    let deletedCount = 0;
-    files.forEach(file => {
-      if (file.endsWith('.xlsx')) {
-        const filePath = path.join(DATA_DIR, file);
-        const stats = fs.statSync(filePath);
-        const fileAge = now - stats.birthtimeMs; // Use creation time
-
-        if (fileAge > thirtyDaysInMs) {
-          fs.unlinkSync(filePath);
-          console.log(`Deleted old sheet: ${file}`);
-          deletedCount++;
-        }
-      }
-    });
-    console.log(`Cleanup complete. Deleted ${deletedCount} files.`);
-  } catch (err) {
-    console.error('Error running cron job:', err);
-  }
-});
+  });
+}
 
 // ---------------------------------------------------------
 // Start Server

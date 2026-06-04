@@ -3,12 +3,9 @@ import React, { useState, useEffect } from 'react';
 const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
-  const [sheets, setSheets] = useState([]);
+  const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [viewingSheet, setViewingSheet] = useState(null);
-  const [sheetData, setSheetData] = useState(null);
-  const [viewLoading, setViewLoading] = useState(false);
 
   // In a real application, this should be validated on the backend via session/token
   // For this simple implementation, we check a hardcoded password on the frontend
@@ -16,66 +13,25 @@ const Admin = () => {
     e.preventDefault();
     if (password === 'admin123') {
       setIsAuthenticated(true);
-      fetchSheets();
+      fetchAppointments();
     } else {
       alert('Incorrect password');
     }
   };
 
-  const fetchSheets = async () => {
+  const fetchAppointments = async () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch('http://localhost:3001/api/sheets');
-      if (!res.ok) throw new Error('Failed to fetch sheets');
+      const res = await fetch('/api/appointments');
+      if (!res.ok) throw new Error('Failed to fetch appointments');
       const data = await res.json();
-      setSheets(data);
+      setAppointments(data);
     } catch (err) {
       console.error(err);
-      setError('Could not load Excel sheets. Is the backend server running?');
+      setError('Could not load appointments. Are the Google Sheets credentials configured?');
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleDownload = (filename) => {
-    window.open(`http://localhost:3001/api/sheets/${filename}/download`, '_blank');
-  };
-
-  const handleView = async (filename) => {
-    setViewingSheet(filename);
-    setSheetData(null);
-    setViewLoading(true);
-    try {
-      const res = await fetch(`http://localhost:3001/api/sheets/${filename}/view`);
-      if (!res.ok) throw new Error('Failed to fetch sheet data');
-      const data = await res.json();
-      setSheetData(data);
-    } catch (err) {
-      console.error(err);
-      alert('Error fetching sheet data');
-      setViewingSheet(null);
-    } finally {
-      setViewLoading(false);
-    }
-  };
-
-  const handleDelete = async (filename) => {
-    if (!window.confirm(`Are you sure you want to delete ${filename}? This action cannot be undone.`)) {
-      return;
-    }
-
-    try {
-      const res = await fetch(`http://localhost:3001/api/sheets/${filename}`, {
-        method: 'DELETE',
-      });
-      if (!res.ok) throw new Error('Failed to delete sheet');
-      
-      // Remove from UI
-      setSheets(sheets.filter(s => s.filename !== filename));
-    } catch (err) {
-      console.error(err);
-      alert('Error deleting sheet');
     }
   };
 
@@ -104,111 +60,55 @@ const Admin = () => {
   return (
     <div style={styles.adminContainer}>
       <div style={styles.header}>
-        <h2 style={{ fontFamily: 'var(--font-serif)', color: 'var(--navy)' }}>Appointments</h2>
-        <button onClick={() => window.location.href = '/'} style={styles.backBtn}>← Back to Website</button>
+        <h2 style={{ fontFamily: 'var(--font-serif)', color: 'var(--navy)' }}>Appointments (Google Sheets)</h2>
+        <div>
+          <button onClick={() => fetchAppointments()} style={{...styles.backBtn, marginRight: '10px'}}>↻ Refresh</button>
+          <button onClick={() => window.location.href = '/'} style={styles.backBtn}>← Back to Website</button>
+        </div>
       </div>
 
       {error && <div style={styles.error}>{error}</div>}
       
       {loading ? (
-        <p>Loading sheets...</p>
+        <div style={{ textAlign: 'center', padding: '2rem' }}>Loading appointments from Google Sheets...</div>
       ) : (
         <div style={styles.tableContainer}>
-          <table style={styles.table}>
-            <thead>
-              <tr>
-                <th style={styles.th}>File</th>
-                <th style={{ ...styles.th, whiteSpace: 'nowrap' }}>Created At</th>
-                <th style={styles.th}>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {sheets.length === 0 ? (
+          <div style={{ overflowX: 'auto' }}>
+            <table style={styles.table}>
+              <thead>
                 <tr>
-                  <td colSpan="3" style={{ textAlign: 'center', padding: '2rem' }}>No Excel sheets found.</td>
+                  <th style={styles.th}>Time Booked</th>
+                  <th style={styles.th}>Name</th>
+                  <th style={styles.th}>Phone</th>
+                  <th style={styles.th}>Age/Gen</th>
+                  <th style={styles.th}>Pref. Date</th>
+                  <th style={styles.th}>Department</th>
+                  <th style={styles.th}>Message</th>
                 </tr>
-              ) : (
-                sheets.map((sheet, idx) => (
-                  <tr key={idx} style={styles.tr}>
-                    <td style={styles.td}><strong>{sheet.filename}</strong></td>
-                    <td style={{ ...styles.td, whiteSpace: 'nowrap' }}>{new Date(sheet.createdAt).toLocaleString()}</td>
-                    <td style={{ ...styles.td, display: 'flex', gap: '8px' }}>
-                      <button 
-                        onClick={() => handleView(sheet.filename)}
-                        style={styles.btnOutline}
-                      >
-                        View
-                      </button>
-                      <button 
-                        onClick={() => handleDownload(sheet.filename)}
-                        style={styles.btnOutline}
-                      >
-                        Download
-                      </button>
-                      <button 
-                        onClick={() => handleDelete(sheet.filename)}
-                        style={styles.deleteBtn}
-                      >
-                        Delete
-                      </button>
-                    </td>
+              </thead>
+              <tbody>
+                {appointments.length === 0 ? (
+                  <tr>
+                    <td colSpan="7" style={{ textAlign: 'center', padding: '2rem' }}>No appointments found.</td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-          <p style={{ marginTop: '1rem', fontSize: '0.85rem', color: 'var(--gray-text)' }}>
-            Note: Sheets are automatically deleted after 30 days.
-          </p>
-        </div>
-      )}
-
-      {/* View Modal */}
-      {viewingSheet && (
-        <div style={styles.modalOverlay} onClick={() => setViewingSheet(null)}>
-          <div style={styles.modalContent} onClick={e => e.stopPropagation()}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-              <h3 style={{ margin: 0, color: 'var(--navy)' }}>Viewing: {viewingSheet}</h3>
-              <button onClick={() => setViewingSheet(null)} style={styles.closeModalBtn}>×</button>
-            </div>
-            {viewLoading ? (
-              <p>Loading data...</p>
-            ) : sheetData && sheetData.length > 0 ? (
-              <div style={{ overflowX: 'auto', maxHeight: '60vh' }}>
-                <table style={{...styles.table, fontSize: '0.85rem' }}>
-                  <thead>
-                    <tr>
-                      <th style={styles.th}>Time Booked</th>
-                      <th style={styles.th}>Name</th>
-                      <th style={styles.th}>Phone</th>
-                      <th style={styles.th}>Age/Gen</th>
-                      <th style={styles.th}>Pref. Date</th>
-                      <th style={styles.th}>Department</th>
-                      <th style={styles.th}>Message</th>
+                ) : (
+                  appointments.map((row, i) => (
+                    <tr key={i} style={styles.tr}>
+                      <td style={styles.td}>{row.timestamp}</td>
+                      <td style={styles.td}><strong>{row.name}</strong></td>
+                      <td style={styles.td}>{row.phone}</td>
+                      <td style={styles.td}>{row.age} {row.gender}</td>
+                      <td style={styles.td}>{row.prefDate}</td>
+                      <td style={styles.td}>{row.dept}</td>
+                      <td style={styles.td}>{row.msg}</td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {sheetData.map((row, i) => (
-                      <tr key={i} style={styles.tr}>
-                        <td style={styles.td}>{row.timestamp}</td>
-                        <td style={styles.td}><strong>{row.name}</strong></td>
-                        <td style={styles.td}>{row.phone}</td>
-                        <td style={styles.td}>{row.age} {row.gender}</td>
-                        <td style={styles.td}>{row.prefDate}</td>
-                        <td style={styles.td}>{row.dept}</td>
-                        <td style={styles.td}>{row.msg}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            ) : (
-              <p>No appointments found in this sheet.</p>
-            )}
+                  ))
+                )}
+              </tbody>
+            </table>
           </div>
         </div>
       )}
-
     </div>
   );
 };
@@ -259,7 +159,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    maxWidth: '900px',
+    maxWidth: '1200px',
     margin: '0 auto 2rem',
   },
   backBtn: {
@@ -271,7 +171,7 @@ const styles = {
     cursor: 'pointer',
   },
   tableContainer: {
-    maxWidth: '900px',
+    maxWidth: '1200px',
     margin: '0 auto',
     background: 'white',
     borderRadius: '12px',
@@ -281,6 +181,7 @@ const styles = {
   table: {
     width: '100%',
     borderCollapse: 'collapse',
+    fontSize: '0.9rem',
   },
   th: {
     textAlign: 'left',
@@ -288,6 +189,7 @@ const styles = {
     borderBottom: '2px solid #e2e8f0',
     color: 'var(--gray-text)',
     fontWeight: '600',
+    whiteSpace: 'nowrap',
   },
   tr: {
     borderBottom: '1px solid #f1f5f9',
@@ -296,57 +198,13 @@ const styles = {
     padding: '1rem',
     color: 'var(--navy)',
   },
-  btnOutline: {
-    background: 'transparent',
-    color: 'var(--teal)',
-    border: '1px solid var(--teal)',
-    padding: '0.5rem 1rem',
-    borderRadius: '6px',
-    cursor: 'pointer',
-    fontSize: '0.85rem',
-  },
-  deleteBtn: {
-    background: 'var(--red-urgent)',
-    color: 'white',
-    border: 'none',
-    padding: '0.5rem 1rem',
-    borderRadius: '6px',
-    cursor: 'pointer',
-    fontSize: '0.85rem',
-  },
   error: {
-    maxWidth: '900px',
+    maxWidth: '1200px',
     margin: '0 auto 1rem',
     background: '#fee2e2',
     color: '#991b1b',
     padding: '1rem',
     borderRadius: '8px',
-  },
-  modalOverlay: {
-    position: 'fixed',
-    inset: 0,
-    background: 'rgba(0,0,0,0.6)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 9999,
-  },
-  modalContent: {
-    background: 'white',
-    padding: '2rem',
-    borderRadius: '12px',
-    width: '95%',
-    maxWidth: '1200px',
-    maxHeight: '90vh',
-    overflowY: 'auto',
-    boxShadow: '0 10px 40px rgba(0,0,0,0.2)',
-  },
-  closeModalBtn: {
-    background: 'transparent',
-    border: 'none',
-    fontSize: '2rem',
-    cursor: 'pointer',
-    color: 'var(--gray-text)',
   }
 };
 

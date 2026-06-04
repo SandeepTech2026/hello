@@ -25,7 +25,7 @@ const Appointment = () => {
     
     setIsSubmitting(true);
     try {
-      const response = await fetch('http://localhost:3001/api/appointments', {
+      const response = await fetch('/api/appointments', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
