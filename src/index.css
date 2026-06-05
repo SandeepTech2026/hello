@@ -653,6 +653,16 @@
       overflow: hidden;
     }
 
+    .service-card.emergency {
+      grid-column: span 2 / auto;
+    }
+
+    .emergency-lists {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 2rem;
+    }
+
     .service-card::before {
       content: '';
       position: absolute;
@@ -1476,6 +1486,19 @@
 
       .nav-menu.active {
         clip-path: circle(200% at top right);
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .service-card.emergency {
+        grid-column: span 1 / auto;
+      }
+
+      .emergency-lists {
+        grid-template-columns: 1fr;
+        gap: 1rem;
       }
 
       .nav-links {

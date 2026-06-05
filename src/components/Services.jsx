@@ -70,11 +70,11 @@ const Services = () => {
           </div>
 
           {/* Emergency / General Problems */}
-          <div className="service-card emergency" style={{ gridColumn: 'span 2 / auto' }}>
+          <div className="service-card emergency">
             <div className="svc-icon">🚨</div>
             <h3>Emergency & General Problems</h3>
             <div className="tel">అత్యవసర కేసులు 24×7 అందుబాటులో ఉన్నాయి · సాధారణ సమస్యలు</div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 2rem' }}>
+            <div className="emergency-lists">
               <ul className="svc-list">
                 <li><span className="en">Pain Abdomen</span><span className="te">కడుపు నొప్పి</span></li>
                 <li><span className="en">Headache · Leg Pain · Vomiting</span><span className="te">తలనొప్పి, కాళ్ళ నొప్పి, వాంతులు</span></li>
