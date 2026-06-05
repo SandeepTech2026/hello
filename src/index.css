@@ -1621,6 +1621,14 @@
         text-align: center;
       }
 
+      .dev-divider {
+        display: none;
+      }
+      .dev-name, .dev-phone {
+        display: block;
+        margin-bottom: 2px;
+      }
+
       .map-details {
         grid-template-columns: 1fr;
       }
