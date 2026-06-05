@@ -1507,6 +1507,12 @@
         grid-template-columns: 1fr;
       }
 
+      .sticky-emergency {
+        right: 50%;
+        transform: translateX(50%);
+        bottom: 1rem;
+      }
+
       .hero-content {
         padding-top: 6rem;
         text-align: center;
