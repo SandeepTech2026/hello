@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import { format } from 'date-fns';
 
 const Appointment = () => {
+  const today = new Date();
   const [formData, setFormData] = useState({
-    f_name: '', f_phone: '', f_age: '', f_gender: '', f_date: '', f_dept: '', f_msg: ''
+    f_name: '', f_phone: '', f_age: '', f_gender: '', f_date: today, f_dept: '', f_msg: ''
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const today = new Date().toISOString().split('T')[0];
-
-  useEffect(() => {
-    setFormData(prev => ({ ...prev, f_date: today }));
-  }, [today]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -24,13 +23,19 @@ const Appointment = () => {
     if (!formData.f_date) { alert('Please select a preferred date.'); return; }
     
     setIsSubmitting(true);
+
+    const submissionData = {
+      ...formData,
+      f_date: formData.f_date ? format(formData.f_date, 'dd/MM/yyyy') : ''
+    };
+
     try {
       const response = await fetch('/api/appointments', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(submissionData)
       });
       
       if (response.ok) {
@@ -120,7 +125,14 @@ const Appointment = () => {
                 </div>
                 <div className="form-group">
                   <label>Preferred Appointment Date *</label>
-                  <input type="date" id="f_date" value={formData.f_date} onChange={handleChange} min={today} required />
+                  <DatePicker 
+                    selected={formData.f_date} 
+                    onChange={(date) => setFormData({ ...formData, f_date: date })} 
+                    dateFormat="dd/MM/yyyy"
+                    minDate={today}
+                    required 
+                    className="date-picker-input"
+                  />
                 </div>
                 <div className="form-group">
                   <label>Department / Concern</label>

@@ -1035,7 +1035,8 @@
 
     .form-group input,
     .form-group select,
-    .form-group textarea {
+    .form-group textarea,
+    .react-datepicker-wrapper input {
       border: 1.5px solid #e2e8f0;
       border-radius: 8px;
       padding: 0.7rem 0.9rem;
@@ -1045,6 +1046,11 @@
       background: white;
       transition: border-color 0.2s;
       outline: none;
+      width: 100%;
+    }
+
+    .react-datepicker-wrapper {
+      width: 100%;
     }
 
     .form-group input:focus,
