@@ -1469,7 +1469,7 @@
         padding: 3rem 2rem;
         gap: 1.5rem;
         clip-path: circle(0px at top right);
-        transition: clip-path 0.4s ease-in-out;
+        transition: clip-path 0.25s ease-out;
         box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         overflow-y: auto;
       }
@@ -1556,6 +1556,10 @@
       
       .hero h1 {
         font-size: 1.8rem;
+      }
+      
+      .services-grid {
+        grid-template-columns: 1fr;
       }
       
       .hero-right {

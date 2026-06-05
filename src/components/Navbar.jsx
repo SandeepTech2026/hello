@@ -40,7 +40,7 @@ const Navbar = ({ onOpenGallery }) => {
           <button 
             className="nav-cta" 
             onClick={() => {
-              document.getElementById('appointment')?.scrollIntoView({behavior:'smooth'});
+              document.getElementById('apptFormWrapper')?.scrollIntoView({behavior:'smooth'});
               closeMenu();
             }}
           >
