@@ -51,7 +51,6 @@ const Admin = () => {
             />
             <button type="submit" style={styles.btn}>Login</button>
           </form>
-          <p style={{ marginTop: '1rem', fontSize: '0.8rem', color: 'var(--gray-text)' }}>Hint: The password is admin123</p>
         </div>
       </div>
     );
@@ -151,7 +150,7 @@ const styles = {
   },
   adminContainer: {
     minHeight: '100vh',
-    padding: '3rem 2rem',
+    padding: '2rem 1rem',
     background: 'var(--gray-soft)',
     fontFamily: 'var(--font-sans)',
   },
