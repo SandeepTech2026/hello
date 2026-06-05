@@ -81,7 +81,7 @@ app.post('/api/appointments', async (req, res) => {
     
     // Append row
     await sheet.addRow({
-      'Time Booked': new Date().toLocaleString(),
+      'Time Booked': new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
       'Full Name': f_name,
       'Phone': f_phone,
       'Age': f_age || '',
