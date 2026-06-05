@@ -42,7 +42,7 @@ const Footer = ({ onOpenGallery }) => {
         </div>
         <div className="footer-bottom">
           <p>© 2025 SGL Hospital – Dr. B. Sandeep Hospital, Eluru. All rights reserved.</p>
-          <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.85rem', marginTop: '1.5rem', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '1.5rem' }}>
+          <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.85rem', marginTop: '1.5rem' }}>
             <p style={{ marginBottom: '4px' }}>Developed by <strong style={{ color: 'rgba(255,255,255,0.7)' }}>Sandeep Technologies Pvt Ltd.</strong></p>
             <p>Developer: Dukkipati Sandeep &nbsp;|&nbsp; Phone: <a href="tel:+919573934919" style={{ color: 'rgba(255,255,255,0.6)', textDecoration: 'none' }}>+91 9573934919</a></p>
           </div>
