@@ -21,7 +21,7 @@ const Hero = () => {
           <p className="hero-desc">Advanced Laparoscopic, Laser &amp; General Surgical Care. Serving Eluru and the Coastal Andhra Region with state-of-the-art minimally invasive procedures and compassionate round-the-clock care.</p>
           <div className="hero-btns">
             <a href="#apptFormWrapper" className="btn-primary">📋 Book OP Appointment</a>
-            <a href="tel:+918885647808" className="btn-outline">📞 Call Now</a>
+            <a href="tel:08812252566" className="btn-outline">📞 Call Now</a>
           </div>
           <div className="hero-stats">
             <div className="stat-card"><span className="stat-num">24/7</span><span className="stat-label">Emergency Services</span></div>
