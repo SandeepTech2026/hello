@@ -22,10 +22,10 @@ const initializeGoogleSheets = async () => {
     scopes: ['https://www.googleapis.com/auth/spreadsheets'],
   });
 
-  doc = new GoogleSpreadsheet(process.env.SPREADSHEET_ID, serviceAccountAuth);
-  await doc.loadInfo(); 
+  const newDoc = new GoogleSpreadsheet(process.env.SPREADSHEET_ID, serviceAccountAuth);
+  await newDoc.loadInfo(); 
   
-  const sheet = doc.sheetsByIndex[0];
+  const sheet = newDoc.sheetsByIndex[0];
   try {
     await sheet.loadHeaderRow();
   } catch (e) {
@@ -34,6 +34,7 @@ const initializeGoogleSheets = async () => {
     ]);
   }
   
+  doc = newDoc;
   return doc;
 };
 
