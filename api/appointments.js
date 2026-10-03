@@ -10,7 +10,11 @@ const initializeGoogleSheets = async () => {
     throw new Error('Google Sheets credentials are not fully set in environment variables.');
   }
 
-  const privateKey = process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n');
+  let privateKey = process.env.GOOGLE_PRIVATE_KEY;
+  // Remove wrapping quotes if they accidentally got pasted
+  privateKey = privateKey.replace(/^"|"$/g, '');
+  // Replace literal '\n' with actual newline characters
+  privateKey = privateKey.replace(/\\n/g, '\n');
 
   const serviceAccountAuth = new JWT({
     email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -83,7 +87,7 @@ export default async function handler(req, res) {
       return res.status(201).json({ message: 'Appointment saved successfully to Google Sheets' });
     } catch (error) {
       console.error('Error saving appointment:', error);
-      return res.status(500).json({ error: 'Internal Server Error' });
+      return res.status(500).json({ error: error.message || 'Internal Server Error' });
     }
   }
 

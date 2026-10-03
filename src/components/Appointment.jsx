@@ -41,7 +41,8 @@ const Appointment = () => {
       if (response.ok) {
         setIsSubmitted(true);
       } else {
-        alert('Failed to submit appointment. Please try again later.');
+        const errData = await response.json();
+        alert('Server Error: ' + (errData.error || 'Failed to submit appointment.'));
       }
     } catch (error) {
       console.error('Error submitting appointment:', error);
